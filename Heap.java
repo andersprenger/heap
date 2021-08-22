@@ -1,5 +1,6 @@
 
 // Heap.java
+// Heap.java
 public class Heap {
 
     private int v[];
@@ -22,7 +23,7 @@ public class Heap {
         return (i - 1) / 2;
     }
 
-    private void sift_up(int pos) {
+    private void sift_up(int pos) { // inserção
         int posParent = parent(pos);
 
         if (v[posParent] < v[pos]) {
@@ -40,24 +41,28 @@ public class Heap {
         used++;
     }
 
-    private void sift_down(int pos) {
+    private void sift_down(int pos) { // remoção
         int posLeft = left(pos);
         int posRight = right(pos);
 
-        boolean isLeftBigger = v[posLeft] > v[posRight];
+        int maiorPos = pos;
+        int maior = v[pos];
 
-        if (isLeftBigger && v[pos] < v[posLeft]) {
-            int aux = v[posLeft];
-            v[posLeft] = v[pos];
-            v[pos] = aux;
+        if (posLeft < this.used && maior < v[posLeft]) {
+            maiorPos = posLeft;
+            maior = v[posLeft];
+        }
 
-            sift_down(posLeft);
-        } else if (v[pos] < v[posRight]) {
-            int aux = v[posRight];
-            v[posRight] = v[pos];
-            v[pos] = aux;
+        if (posRight < this.used && maior < v[posRight]) {
+            maiorPos = posRight;
+            maior = v[posRight];
+        }
 
-            sift_down(posRight);
+        if (pos != maiorPos) {
+            int aux = v[pos];
+            v[pos] = v[maiorPos];
+            v[maiorPos] = aux;
+            sift_down(maiorPos);
         }
     }
 
@@ -75,6 +80,10 @@ public class Heap {
             a /= 10;
         }
         return res;
+    }
+
+    private boolean isEmpty() {
+      return used == 0;
     }
 
     private void print(int b, int elem, int sp) {
